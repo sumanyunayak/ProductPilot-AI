@@ -1,0 +1,16 @@
+.sidebar {
+  background-color: #0f172a;
+  color: #cbd5e1;
+}
+
+.sidebar-logo-text h2,
+.sidebar-logo-text p,
+.sidebar-nav-link,
+.sidebar-workspace p,
+.sidebar-workspace strong {
+  color: #cbd5e1;
+}
+
+.sidebar-nav-link.active {
+  color: #ffffff;
+}

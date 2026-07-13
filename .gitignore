@@ -1,0 +1,24 @@
+# Environment variables
+backend/.env
+frontend/.env
+
+# Python
+backend/__pycache__/
+*.pyc
+
+# Virtual environment
+backend/venv/
+venv/
+
+# Node
+frontend/node_modules/
+
+# Build folders
+frontend/dist/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
