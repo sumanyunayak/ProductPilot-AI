@@ -25,7 +25,12 @@ function IdeaDetailsPage() {
     async function fetchIdea() {
       try {
         const data = await getProductIdea(id);
+
         setIdea(data);
+
+        if (data.analyses.length > 0) {
+          setAnalysis(data.analyses[0].response);
+        }
       } catch (err) {
         setError("Could not load this idea.");
       } finally {
@@ -71,6 +76,8 @@ function IdeaDetailsPage() {
       const result = await analyzeProductIdea(id);
 
       setAnalysis(result.analysis);
+      const updatedIdea = await getProductIdea(id);
+      setIdea(updatedIdea);
     } catch (error) {
       setAnalysisError(error.message);
     } finally {
@@ -143,20 +150,43 @@ function IdeaDetailsPage() {
         )}
       </Card>
 
-      {analysis && (
-        <Card>
-          <h2>🤖 AI Product Analysis</h2>
+      {idea?.analyses?.length > 0 && (
+  <Card>
+    <h2>🤖 AI Analysis History</h2>
 
-          <pre
-            style={{
-              whiteSpace: "pre-wrap",
-              lineHeight: "1.7",
-            }}
-          >
-            {analysis}
-          </pre>
-        </Card>
-      )}
+    {idea.analyses.map((item) => (
+      <div
+        key={item.id}
+        style={{
+          marginBottom: "32px",
+          paddingBottom: "24px",
+          borderBottom: "1px solid #ddd",
+        }}
+      >
+        <p>
+          <strong>Analyzed on:</strong>{" "}
+          {new Date(item.created_at).toLocaleString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          })}
+        </p>
+
+        <pre
+          style={{
+            whiteSpace: "pre-wrap",
+            lineHeight: "1.7",
+          }}
+        >
+          {item.response}
+        </pre>
+      </div>
+    ))}
+  </Card>
+)}
     </div>
   );
 }
