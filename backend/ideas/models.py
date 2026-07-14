@@ -20,3 +20,18 @@ class ProductIdea(models.Model):
 
     def __str__(self):
         return self.title
+
+class Analysis(models.Model):
+    product_idea = models.ForeignKey(
+        ProductIdea,
+        on_delete=models.CASCADE,
+        related_name="analyses",
+    )
+    response = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"Analysis for {self.product_idea.title}"

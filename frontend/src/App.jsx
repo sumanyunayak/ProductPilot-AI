@@ -4,6 +4,7 @@ import MainLayout from "./components/layout/MainLayout";
 import IdeasPage from "./pages/IdeasPage";
 import IdeaDetailsPage from "./pages/IdeaDetailsPage";
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -25,6 +26,8 @@ function App() {
             </MainLayout>
           }
         />
+
+        <Route path="/dashboard" element={<DashboardPage />} />
       </Routes>
     </BrowserRouter>
   );
