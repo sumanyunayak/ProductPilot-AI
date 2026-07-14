@@ -27,7 +27,6 @@ function App() {
           }
         />
 
-        <Route path="/dashboard" element={<DashboardPage />} />
       </Routes>
     </BrowserRouter>
   );

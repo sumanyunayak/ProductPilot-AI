@@ -5,7 +5,7 @@ from os import error
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import ProductIdea
+from .models import ProductIdea,Analysis
 from .serializers import ProductIdeaSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -65,10 +65,15 @@ def analyze_idea(request, pk):
     prompt = build_product_analysis_prompt(idea)
 
     try:
-        analysis = analyze_product_idea(prompt)
+        ai_response = analyze_product_idea(prompt)
+
+        Analysis.objects.create(
+            product_idea=idea,
+            response=ai_response,
+        )
 
         return Response({
-            "analysis": analysis
+            "analysis": ai_response
     })
 
     except Exception as error:
