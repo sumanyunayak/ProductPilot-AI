@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class ProductIdea(models.Model):
     STATUS_CHOICES = [
@@ -8,6 +8,11 @@ class ProductIdea(models.Model):
         ('in_progress', 'In Progress'),
     ]
 
+    owner = models.ForeignKey(
+    User,
+    on_delete=models.CASCADE,
+    related_name="product_ideas",
+)
     title = models.CharField(max_length=200) # product idea name
     problem = models.TextField() # problem statement
     target_user = models.CharField(max_length=200) # who faces this problem
