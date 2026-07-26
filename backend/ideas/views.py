@@ -11,6 +11,10 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from services.ai_service import analyze_product_idea
 from services.prompts import build_product_analysis_prompt
+from rest_framework import generics
+from django.contrib.auth.models import User
+
+from .serializers import RegisterSerializer
 
 @api_view(['GET', 'POST'])
 def product_idea_list(request):
@@ -83,3 +87,7 @@ def analyze_idea(request, pk):
             },
             status=status.HTTP_503_SERVICE_UNAVAILABLE,
     )
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
