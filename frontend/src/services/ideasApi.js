@@ -1,27 +1,20 @@
-import { API_BASE_URL } from "./apiConfig";
-
+import { authenticatedFetch } from "./authFetch";
 // -----------------------------
 // Get all product ideas
 // -----------------------------
 export async function getProductIdeas() {
-  const response = await fetch(`${API_BASE_URL}/ideas/`);
+  const response = await authenticatedFetch("/ideas/");
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch product ideas.");
-  }
-
-  return await response.json();
+  return response.json();
 }
 
 // -----------------------------
 // Create a new product idea
 // -----------------------------
 export async function createProductIdea(ideaData) {
-  const response = await fetch(`${API_BASE_URL}/ideas/`, {
+  const response = await authenticatedFetch("/ideas/", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+
     body: JSON.stringify(ideaData),
   });
 
@@ -40,11 +33,7 @@ export async function createProductIdea(ideaData) {
 // Get a single product idea
 // -----------------------------
 export async function getProductIdea(id) {
-  const response = await fetch(`${API_BASE_URL}/ideas/${id}/`);
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch product idea.");
-  }
+  const response = await authenticatedFetch(`/ideas/${id}/`);
 
   return await response.json();
 }
@@ -53,11 +42,8 @@ export async function getProductIdea(id) {
 // Update a product idea
 // -----------------------------
 export async function updateProductIdea(id, formData) {
-  const response = await fetch(`${API_BASE_URL}/ideas/${id}/`, {
+  const response = await authenticatedFetch(`/ideas/${id}/`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(formData),
   });
 
@@ -72,7 +58,7 @@ export async function updateProductIdea(id, formData) {
 // Delete a product idea
 // -----------------------------
 export async function deleteProductIdea(id) {
-  const response = await fetch(`${API_BASE_URL}/ideas/${id}/`, {
+  const response = await authenticatedFetch(`/ideas/${id}/`, {
     method: "DELETE",
   });
 
@@ -85,13 +71,9 @@ export async function deleteProductIdea(id) {
 // Analyze a product idea
 // -----------------------------
 export async function analyzeProductIdea(id) {
-  const response = await fetch(`${API_BASE_URL}/ideas/${id}/analyze/`, {
+  const response = await authenticatedFetch(`/ideas/${id}/analyze/`, {
     method: "POST",
   });
-
-  if (!response.ok) {
-    throw new Error("Failed to analyze product idea.");
-  }
 
   return await response.json();
 }
