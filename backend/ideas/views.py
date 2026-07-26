@@ -3,7 +3,7 @@
 
 from os import error
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import ProductIdea,Analysis
 from .serializers import ProductIdeaSerializer
@@ -13,14 +13,16 @@ from services.ai_service import analyze_product_idea
 from services.prompts import build_product_analysis_prompt
 from rest_framework import generics
 from django.contrib.auth.models import User
+from rest_framework.permissions import IsAuthenticated
 
 from .serializers import RegisterSerializer
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def product_idea_list(request):
     
     if request.method == 'GET':
-        ideas = ProductIdea.objects.all().order_by('-created_at')
+        ideas = ProductIdea.objects.filter(owner=request.user).order_by("-created_at")
         serializer = ProductIdeaSerializer(ideas, many=True)
         return Response(serializer.data)
 
@@ -34,8 +36,9 @@ def product_idea_list(request):
         return Response(serializer.errors, status=400)
 
 @api_view(["GET", "PUT", "DELETE"])
+@permission_classes([IsAuthenticated])
 def product_idea_detail(request, pk):
-    idea = get_object_or_404(ProductIdea, pk=pk)
+    idea = get_object_or_404(ProductIdea,pk=pk,owner=request.user)
 
     if request.method == "GET":
         serializer = ProductIdeaSerializer(idea)
@@ -48,7 +51,7 @@ def product_idea_detail(request, pk):
         )
 
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(owner=request.user)
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
     
@@ -57,9 +60,10 @@ def product_idea_detail(request, pk):
         return Response(status=204)
     
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def analyze_idea(request, pk):
     try:
-        idea = ProductIdea.objects.get(pk=pk)
+        idea = get_object_or_404(ProductIdea,pk=pk,owner=request.user)
     except ProductIdea.DoesNotExist:
         return Response(
             {"error": "Idea not found."},
@@ -91,3 +95,6 @@ def analyze_idea(request, pk):
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
+
+def perform_create(self, serializer):
+    serializer.save(owner=self.request.user)

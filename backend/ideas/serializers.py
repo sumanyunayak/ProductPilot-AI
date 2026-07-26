@@ -20,6 +20,7 @@ class ProductIdeaSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductIdea
         fields = "__all__"
+        read_only_fields = ["owner"]
 
 class AnalysisSerializer(serializers.ModelSerializer):
     class Meta:
