@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "./Sidebar"; // This imports the sidebar component from the same folder.
 import TopNavbar from "./TopNavbar";
+import { Outlet } from "react-router-dom";
 
 function MainLayout({ children }) {
   return (
@@ -9,7 +10,7 @@ function MainLayout({ children }) {
 
       <div className="content-shell">
           <TopNavbar />
-          <main className="main-content">{children}</main>
+          <main className="main-content"><Outlet /></main>
       </div>
     </div>
   );
