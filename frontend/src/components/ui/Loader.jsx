@@ -1,11 +1,10 @@
 import "./Loader.css";
 
-function Loader({ size = "medium", text = "", className = "" }) {
+function Loader({ text = "Loading..." }) {
   return (
-    <div className={`loader-wrapper ${className}`}>
-      <span className={`loader loader-${size}`}></span>
-
-      {text && <p className="loader-text">{text}</p>}
+    <div className="loader">
+      <div className="loader-spinner"></div>
+      <p>{text}</p>
     </div>
   );
 }

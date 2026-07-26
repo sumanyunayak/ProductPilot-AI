@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+import { API_BASE_URL } from "./apiConfig";
 
 export async function registerUser(userData) {
   const response = await fetch(`${API_BASE_URL}/auth/register/`, {
@@ -12,7 +12,12 @@ export async function registerUser(userData) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.detail || "Registration failed.");
+    if (!response.ok) {
+      const message =
+        data.detail || Object.values(data)[0]?.[0] || "Registration failed.";
+
+      throw new Error(message);
+    }
   }
 
   return data;
@@ -30,7 +35,10 @@ export async function loginUser(credentials) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.detail || "Login failed.");
+    const message =
+      data.detail || Object.values(data)[0]?.[0] || "Login failed.";
+
+    throw new Error(message);
   }
 
   return data;

@@ -1,15 +1,21 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+import { API_BASE_URL } from "./apiConfig";
 
+// -----------------------------
+// Get all product ideas
+// -----------------------------
 export async function getProductIdeas() {
   const response = await fetch(`${API_BASE_URL}/ideas/`);
 
   if (!response.ok) {
-    throw new Error("Failed to fetch product ideas");
+    throw new Error("Failed to fetch product ideas.");
   }
 
-  const data = await response.json();
-  return data;
+  return await response.json();
 }
+
+// -----------------------------
+// Create a new product idea
+// -----------------------------
 export async function createProductIdea(ideaData) {
   const response = await fetch(`${API_BASE_URL}/ideas/`, {
     method: "POST",
@@ -20,7 +26,7 @@ export async function createProductIdea(ideaData) {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to create product idea");
+    throw new Error("Failed to create product idea.");
   }
 
   try {
@@ -30,8 +36,11 @@ export async function createProductIdea(ideaData) {
   }
 }
 
+// -----------------------------
+// Get a single product idea
+// -----------------------------
 export async function getProductIdea(id) {
-  const response = await fetch(`http://127.0.0.1:8000/api/ideas/${id}/`);
+  const response = await fetch(`${API_BASE_URL}/ideas/${id}/`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch product idea.");
@@ -40,17 +49,17 @@ export async function getProductIdea(id) {
   return await response.json();
 }
 
+// -----------------------------
+// Update a product idea
+// -----------------------------
 export async function updateProductIdea(id, formData) {
-  const response = await fetch(
-    `http://127.0.0.1:8000/api/ideas/${id}/`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    }
-  );
+  const response = await fetch(`${API_BASE_URL}/ideas/${id}/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
 
   if (!response.ok) {
     throw new Error("Failed to update product idea.");
@@ -59,19 +68,22 @@ export async function updateProductIdea(id, formData) {
   return await response.json();
 }
 
+// -----------------------------
+// Delete a product idea
+// -----------------------------
 export async function deleteProductIdea(id) {
-  const response = await fetch(
-    `http://127.0.0.1:8000/api/ideas/${id}/`,
-    {
-      method: "DELETE",
-    }
-  );
+  const response = await fetch(`${API_BASE_URL}/ideas/${id}/`, {
+    method: "DELETE",
+  });
 
   if (!response.ok) {
     throw new Error("Failed to delete product idea.");
   }
 }
 
+// -----------------------------
+// Analyze a product idea
+// -----------------------------
 export async function analyzeProductIdea(id) {
   const response = await fetch(`${API_BASE_URL}/ideas/${id}/analyze/`, {
     method: "POST",
@@ -81,5 +93,5 @@ export async function analyzeProductIdea(id) {
     throw new Error("Failed to analyze product idea.");
   }
 
-  return response.json();
+  return await response.json();
 }

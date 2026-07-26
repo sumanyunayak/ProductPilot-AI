@@ -60,7 +60,7 @@ function LoginPage() {
   // -----------------------------
   return (
     <div className="login-page">
-      <div className="login-card">
+      <Card className="login-card">
         <h1>Welcome Back</h1>
         <p>Sign in to continue to ProductPilot AI</p>
 
@@ -95,14 +95,14 @@ function LoginPage() {
             </p>
           )}
 
-          <button
+          <Button
             type="submit"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Login"}
-          </button>
+          </Button>
         </form>
-      </div>
+      </Card>
     </div>
   );
 }
