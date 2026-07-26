@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import MainLayout from "./components/layout/MainLayout";
-
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 import DashboardPage from "./pages/DashboardPage";
 import IdeasPage from "./pages/IdeasPage";
 import IdeaDetailsPage from "./pages/IdeaDetailsPage";
@@ -16,7 +16,13 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
 
       {/* Protected Layout */}
-      <Route element={<MainLayout />}>
+      <Route
+        element={
+          <ProtectedRoute>
+            <MainLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route path="/" element={<DashboardPage />} />
         <Route path="/ideas" element={<IdeasPage />} />
         <Route path="/ideas/:id" element={<IdeaDetailsPage />} />
