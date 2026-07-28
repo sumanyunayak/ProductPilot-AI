@@ -123,3 +123,18 @@
   align-items: center;
   justify-content: center;
 }
+
+.logout-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ef4444;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626;
+}
