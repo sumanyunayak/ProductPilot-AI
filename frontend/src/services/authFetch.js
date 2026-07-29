@@ -30,6 +30,37 @@ async function refreshAccessToken() {
 
   return data.access;
 }
+async function handleApiError(response) {
+  let errorMessage = "Something went wrong.";
+
+  try {
+    const data = await response.json();
+
+    errorMessage = data.detail || data.error || data.message || errorMessage;
+  } catch {
+    // Response wasn't JSON
+  }
+
+  switch (response.status) {
+    case 400:
+      throw new Error(errorMessage);
+
+    case 401:
+      throw new Error("Authentication required.");
+
+    case 403:
+      throw new Error("You don't have permission to perform this action.");
+
+    case 404:
+      throw new Error("Requested resource not found.");
+
+    case 500:
+      throw new Error("Server error. Please try again later.");
+
+    default:
+      throw new Error(errorMessage);
+  }
+}
 
 export async function authenticatedFetch(endpoint, options = {}) {
   let accessToken = localStorage.getItem("accessToken");
@@ -62,16 +93,7 @@ export async function authenticatedFetch(endpoint, options = {}) {
   }
 
   if (!response.ok) {
-    let errorMessage = "Request failed.";
-
-    try {
-      const data = await response.json();
-      errorMessage = data.detail || data.error || errorMessage;
-    } catch {
-      // Response wasn't JSON
-    }
-
-    throw new Error(errorMessage);
+    await handleApiError(response);
   }
 
   return response;

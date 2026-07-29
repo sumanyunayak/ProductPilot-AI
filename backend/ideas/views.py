@@ -30,7 +30,7 @@ def product_idea_list(request):
         serializer = ProductIdeaSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(owner=request.user)
             return Response(serializer.data, status=201)
 
         return Response(serializer.errors, status=400)
@@ -95,6 +95,3 @@ def analyze_idea(request, pk):
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
-
-def perform_create(self, serializer):
-    serializer.save(owner=self.request.user)

@@ -22,15 +22,6 @@ class ProductIdeaSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ["owner"]
 
-class AnalysisSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Analysis
-        fields = [
-            "id",
-            "response",
-            "created_at",
-        ]
-
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
 
