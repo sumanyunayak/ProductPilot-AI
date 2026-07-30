@@ -7,13 +7,15 @@ import IdeasPage from "./pages/IdeasPage";
 import IdeaDetailsPage from "./pages/IdeaDetailsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import { ToastProvider } from "./context/ToastContext";
 
 function App() {
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+    <ToastProvider>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
       {/* Protected Layout */}
       <Route
@@ -28,6 +30,7 @@ function App() {
         <Route path="/ideas/:id" element={<IdeaDetailsPage />} />
       </Route>
     </Routes>
+  </ToastProvider>
   );
 }
 
